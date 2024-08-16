@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-2</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div class="alert-box" id="alert">알림!
+        <button onclick="alertOff()">
+            Close</button>
+    </div>
+    <button onclick="alertOn()">
+        Click me</button>
+    <!-- 버튼에 클릭 이벤트가 들어오면, alert라는 id의 display를 block으로 바꿔 -->
+    <h1 class="qwe">zzzzZzzzz</h1>
+    
+    <script>
+
+        function alertOn() {
+            document.getElementById('alert').style.display = 'block'
+        }
+        function alertOff() {
+            document.getElementById('alert').style.display = 'none'
+        }
+
+    </script>
+</body>
+</html>

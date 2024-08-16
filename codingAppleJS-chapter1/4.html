@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-2</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div class="alert-box" id="alert">
+        <span id="message">히히!</span>
+        <button onclick="alertOnOff('none')">
+            Close</button>
+    </div>
+    <button onclick="alertOnOff('block','아이디')">
+        아이디</button>
+    
+    <button onclick="alertOnOff('block','비번')">
+        비밀번호</button>
+
+    <script>
+        // 파라미터 문법으로 업그레이드
+        function alertOnOff(display,message) {
+            document.getElementById('alert').style.display = display;
+            document.getElementById('message').innerHTML = message;
+        }
+    </script>
+</body>
+</html>
