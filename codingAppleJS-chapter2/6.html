@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-6 함수의 return 문법 & 소수 다루기</title>
+</head>
+<body>
+
+    <script>
+        function vat(a){
+            return a * 0.25
+        }
+
+        console.log(vat(60000));
+        console.log(vat(50000));
+        console.log(vat(80000));
+        // 숫자지만 글자로 인식함.
+        console.log('123');
+
+        // 숙제 1
+        function msms(mm,ss){
+            return (mm*60+ss)*10000
+        } ;
+        console.log(msms(1,30))
+        console.log(msms(2,10))
+
+        // 숙제 2
+        // 원래 지불금 x의 10%가 할인된 금액을 출력한다.
+        // 이때 첫 구매인 경우 현금 1.5도 추가로 할인한다.
+            // function deal(dd,ff){
+            //         if(ff == false){
+            //             return dd-dd*0.1;
+            //         } else{
+            //             return dd-dd*0.1-1.5;
+            //         }
+            // }
+        function deal(dd,ff){
+            var value = dd*0.9;
+            if(ff == true){
+                value = value -1.5;
+            }
+            return parseFloat(value.toFixed(3));
+        }
+        console.log(deal(70.3, false))
+        console.log(deal(70.3, true))
+
+    </script>
+    
+</body>
+</html>
