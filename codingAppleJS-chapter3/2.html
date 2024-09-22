@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-2 약간 복잡한 Array & Object 데이터바인딩</title>
+</head>
+<body>
+    <div class="container mt-3">
+        <div class="card p-3">
+          <span id="name">상품명</span>
+          <span id="price">가격</span>
+        </div>
+      </div>
+      
+      <script>
+        var car2 = { name : '소나타', price : [50000, 300, 1] };
+
+        document.getElementById('name').innerHTML = car2['name'];
+        document.getElementById('price').innerHTML = car2['price [1]'];
+        console.log(car2.price[1])
+      </script>
+</body>
+</html>

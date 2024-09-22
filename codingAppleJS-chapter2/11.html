@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-11 이벤트 버블링과 이벤트관련 함수들</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="../css/main.css"> -->
+    <style>
+      .black-bg {
+      width : 100%;
+      height : 100%;
+      position : fixed;
+      background : rgba(0,0,0,0.2);
+      z-index : 5;
+      padding: 30px;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.4s;
+      }
+      .show-modal{
+      visibility: visible;
+      opacity: 1;
+      }
+      .list-group{
+        height: 400px;
+        overflow: hidden;
+        transition: all 2s;
+      }
+      .list-group-folde{
+        height: 0px;
+      }
+      .white-bg {
+        background: white;
+        border-radius: 8px;
+        padding: 32px;
+      } 
+      .slide-container {
+        width: 300vw;
+        transition: all 1s;
+      }
+      .slide-box {
+        width: 100vw;
+        float: left;
+      }
+      .slide-box img {
+        width: 100%;
+      } 
+      .navbar {
+        position : fixed;
+        width : 100%;
+        z-index : 5
+      }
+      .navbar-brand {
+        font-size : 40px;
+        transition : all 500ms;
+      }
+
+      .header-font {
+        font-size: 24px;
+      }
+    </style>
+</head>
+
+<body>
+
+  <div class="black-bg">
+    <div class="white-bg">
+      <h4>로그인하세요</h4>
+      <form name="login" action="../codingAppleJS-chapter1/fake-submit.html">
+        <div class="my-3">
+          <input id="id-form" type="text" class="form-control" placeholder="Identificial">
+         </div>
+         <div class="my-3">
+           <input id="pw-form" type="text" class="form-control" placeholder="Password">
+         </div>
+         <button type="submit" class="btn btn-primary" id="submit">전송</button>
+         <button type="button" class="btn btn-danger" id="close">닫기</button>
+      </form> 
+    </div>
+  </div> 
+
+  <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <span class="navbar-brand">Navbar</span>
+        
+        <button id="login" type="button" class="btn btn-primary">
+          Login
+        </button>
+        <button class="navbar-toggler" type="button">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav> 
+
+    <ul class="list-group-folde list-group ">
+      <li class="list-group-item">Aasdasdn item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+      <li class="list-group-item">A fourth item</li>
+      <li class="list-group-item">And a fifth one</li>
+    </ul>
+    <!-- 캐러셀 -->
+    <div style="overflow: hidden">
+      <div class="slide-container">
+        <div class="slide-box">
+          <img src="img/car1.png">
+        </div>
+        <div class="slide-box">
+          <img src="img/car2.png">
+        </div>
+        <div class="slide-box">
+          <img src="img/car3.png">
+        </div>
+      </div>
+   </div> 
+   <!-- Progress -->
+   <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar"></div>
+  </div>
+   <!-- 버튼 그룹 -->
+   <div>
+      <button class="slide-1">1</button>
+      <button class="slide-2">2</button>
+      <button class="slide-3">3</button>
+      <button class="pre-btn"> (( </button>
+      <button class="next-btn"> )) </button>
+  </div>
+  <div class="lorem" style="width: 200px; height: 100px; overflow-y: scroll">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae voluptas voluptatum minus praesentium fugit debitis at, laborum ipsa itaque placeat sit, excepturi eius. Nostrum perspiciatis, eligendi quae consectetur praesentium exercitationem.
+  </div>
+  <!-- 버퍼박스 -->
+  <div style="height: 800px;"></div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    // 2-11 모달 배경 눌렀을때 닫는 기능
+    // 1. 이벤트 리스트: 클릭 - 백그라운드 블랙 > show-modal 제거
+    // 2. 문제 발생: 이벤트 버블링 현상으로 인해 다이얼로그 내부도 백그라운드bg로 인식함
+    // 3. 이를 방지하는 함수를 이용하여 문제 해결
+    var dialog = $('.black-bg');
+    dialog.on('click', function(e){
+      console.log(e.target, dialog)
+      if($(e.target).is($('.black-bg')) == true){
+      dialog.removeClass('show-modal');
+    }});
+  </script>
+  
+  <script>
+    window.addEventListener('scroll', function(){
+      var inProgress = document.querySelector('html').scrollTop;
+      var totally = document.querySelector('html').scrollHeight;
+      var nowHeight= document.querySelector('html').clientHeight;
+      var wwwid = parseInt((inProgress / (totally - nowHeight)).toFixed(2)*100)
+      // console.log(totally, totally, wwwid)
+      $('.progress-bar').width(wwwid+'%');
+
+    });
+    // 2-7 숙제: 스크롤바를 100px 내리면 로고 폰트사이즈를 작게 만들어오십시오. 
+    // 반대로 100px 미만으로 내리면 로고 폰트사이즈를 크게 만들어옵시다.
+    window.addEventListener('scroll', function(){
+      if(window.scrollY > 100){
+        // 클래스 내부의 폰트 크기를 축소
+        document.getElementsByClassName('navbar-brand')[0].style.fontSize = `24px`;
+      } else{
+        // 클래스 내부의 폰트 크기를 확대
+        document.getElementsByClassName('navbar-brand')[0].style.fontSize = `48px`;
+      }
+      // 스크롤 높이 출력
+      // console.log( window.scrollY )
+    });
+
+    // 숙제2: 회원약관 박스를 거의 끝까지 스크롤하면 alert를 띄워줍시다.
+    $('.lorem').on('scroll', function(){
+      var 스크롤양 = document.querySelector('.lorem').scrollTop;
+      var 실제높이 = document.querySelector('.lorem').scrollHeight;
+      var 높이 = document.querySelector('.lorem').clientHeight;
+      console.log(스크롤양, 실제높이);
+      // 만약 스크롤 높이 + div 박스의 높이를 합한 값에서 -10픽셀을 뺸 만큼의 높이가 빠진다면 얼럿을 띄워줘
+      if(스크롤양 + 높이 > 실제높이-20){
+        alert('다 보셨군요');
+      }
+    });
+
+    // 캐러셀 이전-다음 버튼
+    // 다크모드때 썼던 코드로 클릭횟수 기억하고 이전과 다음 버튼이 서로 역으로 카운트하게 설계
+    // var count = 0;
+
+    // $('.next-btn').on('click', function() {
+    //   var qwer = -count*100;
+    //   $('.slide-container').css('transform','translateX(${qwer}vw)');
+    //   count += 1;
+    //   console.log(count, qwer);
+    // });
+
+    var count = 0;
+
+    $('.next-btn').on('click', function() {
+      count += 1;
+      $('.slide-container').css('transform','translateX(-'+ count +'00vw)');
+      
+    });
+
+    // 캐러셀 기본 1,2,3 버튼
+    $('.slide-1').on('click', function() {
+      count = 0;
+      $('.slide-container').css('transform','translateX(-'+ count +'00vw)');
+    });
+
+    $('.slide-2').on('click', function() {
+      count = 1;
+      $('.slide-container').css('transform','translateX(-'+ count +'00vw)');
+    });
+
+    $('.slide-3').on('click', function() {
+      count = 2;
+      $('.slide-container').css('transform','translateX(-'+ count +'00vw)');
+    });
+    
+
+    // $('.pre-btn').on('click', function() {
+    //   count -= 1;
+    //   if(count%3 == 0){
+    //     $('.slide-container').css('transform','translateX(0vw)');
+    //   }
+    //   if(count%3 == 1){
+    //     $('.slide-container').css('transform','translateX(-100vw)');
+    //   }
+    //   if(count%3 == 2){
+    //     $('.slide-container').css('transform','translateX(-200vw)');
+    //   }
+    // });
+
+
+    // 정규식으로 이메일 형식 검증
+    $('form').on('submit',function(e){
+    var 입력한값 = document.getElementById('email').value;
+    if ( /\S+@\S+\.\S+/.test(입력한값) ){
+      alert('이메일형식아님')
+      e.preventDefault();
+    }
+    });
+
+    // 전송 버튼(#submit)을 눌렀을떄
+    // 만약 아이디 폼(#id-form)이 빈칸이라면
+    // 아이디를 입력하라는 얼럿을 띄워라
+    $('#submit').on('click', function() {
+      if(document.getElementById('id-form').value == 0){
+        alert('아이디를 입력하시오');
+        console.log('id-form.value');
+        return false;
+      };
+    });
+
+    // 서밋 버튼을 클릭할떄마다 pwVal로 정의된 password 값을 가져와서
+    // 만약 알파벳 대문자 하나를 포함하지 == 않는다면 알러트로 비번 잘좀ㅋ 라고하고 로그에 벨류를 출력함.
+    $('#submit').on('click', function() {
+    
+      var pwVal = document.getElementById('pw-form').value;
+   
+    if(/[A-Z]/.test(pwVal) == false ){
+        alert('비번잘좀 ㅋ');
+        console.log(pwVal);
+        return false;
+      };
+    });
+
+
+    // 지난 코드
+    $('.navbar-toggler').on('click', function(){
+      $('.list-group').toggleClass('list-group-folde');
+        console.log(zz);
+    });
+
+    $('#login').on('click', function(){
+      $('.black-bg').addClass('show-modal');
+    });
+    
+    $('.btn-danger').on('click', function() {
+      $('.black-bg').removeClass('show-modal');
+    });
+
+  </script>
+  </body>
+</html>
+

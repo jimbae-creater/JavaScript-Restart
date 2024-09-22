@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  Hello world !!  Hello world !!
+
+  <!-- Array에서 철수라는 자료를 찾고 싶습니다 -->
+  <!--  <script>
+    var 출석부 = ['흥민', '영희', '철수', '재석', '철수'];
+
+    // function 이름찾기(name){
+    //     if(출석부.includes(name)){return '정답!';}
+    //     else{return '';}
+    // };
+
+//     function 이름찾기(name){
+//   for (var i = 0; i < 4; i++) {
+//     if ( name == 출석부[i]) {
+//       console.log('있어요')
+//     }
+//   }
+// }
+
+function 이름찾기(name){
+  출석부.forEach(function(i){
+    if(name === i){
+      console.log('있어요zz');
+    }
+  });
+}
+
+
+    이름찾기('철수');
+    //  -> 정답
+    이름찾기('명수');
+    //  -> ''
+    이름찾기('흥민');
+    //  -> 정답
+
+  </script> -->
+
+  <!-- 갑자기 구구단을 콘솔창에 출력하고 싶습니다. -->
+  <!-- <script>
+    // 반복문 사용, 앞열 x 뒷열, 앞열도 뒤열도 2 ~ 9, 서로 곱하기. 끝. 
+    // 깡 반복문 1 < a < 10 으로 돌리기 or 2~9  저장된 어레이 변수로 서로 곱하기.
+    for (var i = 2; i < 10; i++) {
+      for (var a = 1; a < 10; a++) {
+      console.log(i * a)
+    }
+    }
+  </script> -->
+
+  <!-- Q. 평균점수 계산기 만들기  -->
+  <script>
+    // 펑션(모의고사 기록들, 현재점수){
+      // 모의고사 기록들을 나누어 평균을 내고 평균 - 현재점수 하여 -면 재수 추천 출력 +면 축하합니다 출력
+    // }
+    
+
+    // 테스트
+    var jimin = [10, 20, 30, 40, 50];
+    var minsik = [40, 40, 40];
+
+    // console.log(calc(jimin, 40));
+    // console.log(calc(minsik, 20));
+
+    calc(jimin, 40);
+    calc(minsik, 20);
+    
+  </script>
+  <!-- 동작예시 :
+
+  함수([10, 20, 30, 40, 50], 40) 이렇게 쓰면 콘솔창에 "평균보다 10점이 올랐네요"가 떠야합니다. (평균이 30이니까)
+  
+  함수([40, 40, 40], 20) 이렇게 쓰면 콘솔창에 "평균보다 20점이 떨어졌네요 재수추천"이 떠야합니다. (평균이 40이니까) -->
+</body>
+</html>
