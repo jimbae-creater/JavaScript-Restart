@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-11 sort, map, filter 상품정렬기능 숙제</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <div class="input-group g-2 px-4 py-2">
+            <button class="btn btn-primary" id="sort">기본 정렬</button>
+            <input type="text" aria-label="First name" class="form-control" id="fromVal">
+            <span class="input-group-text">원</span>
+            ~
+            <input type="text" aria-label="Last name" class="form-control" id="toVal">
+            <span class="input-group-text">원</span>
+            <button class="btn btn-primary" id="filterScope">가격 정렬</button>
+            <button class="btn btn-primary" id="reset">필터 초기화</button>
+          </div>
+        <!-- <button class="btn btn-primary" id="filter">6만원 이하 상품보기</button> -->
+        
+        <div class="row"> 
+
+        </div>
+      </div>
+      
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    
+    <script>
+
+        var products = [
+          { id : 0, price : 70000, title : 'Blossom Dress' },
+          { id : 1, price : 50000, title : 'Springfield Shirt' },
+          { id : 2, price : 60000, title : 'Black Monastery' }
+        ];
+
+        function setCard(arr) {
+            arr.forEach(function(a, i){
+                var card = `<div class="col-sm-4">
+                        <img src="https://via.placeholder.com/600" class="w-100">
+                        <h5>${arr[i].title}</h5>
+                        <p>가격 <span>${arr[i].price}</span></p>
+                        </div>`
+                $('.row').append(card);
+            });
+        }
+
+        setCard(products)
+
+        // 사전순&사전역순 필터
+        var sortCount = 0;
+
+        $('#sort').click(function () {
+            sortCount++;
+            if(sortCount%2 == 0){
+                $('#sort').html('사전정순 정렬')
+                var sortProducts = products.sort((a, b) => b.title.localeCompare(a.title));
+                $('.row').html('')
+                setCard(sortProducts);
+            } else if(sortCount%2 == 1){
+                $('#sort').html('사전역순 정렬')
+                var sortProducts = products.sort((a, b) => a.title.localeCompare(b.title));
+                $('.row').html('')
+                setCard(sortProducts);
+            } 
+        });
+
+        // 스코핑 필터
+        var filterCount = 0;
+        
+        $('#filterScope').click(function(){
+            filterCount++;
+            if(filterCount > 0){filterProducts = products}
+
+            const fromVal = parseInt($('#fromVal').val());
+            const toVal = parseInt($('#toVal').val());
+
+            var filterProducts = products.filter(a => fromVal <= a.price && a.price <= toVal);
+            $('.row').html('')
+            setCard(filterProducts);
+        });
+
+        // 필터 초기화
+        $('#reset').click(function(){
+            $('.row').html('')
+            products.sort((a, b) => a.id - b.id);
+            filterProducts = products
+            sortProducts = products
+            setCard(products);
+        });
+
+        // $('#filter').click(function(){
+        //     var filterProducts = products.filter(function(a){return a.price <= 60000});
+        //     $('.row').html('')
+        //     setCard(filterProducts);
+        // })
+
+            
+
+        // 가격순으로 정렬해볼건데 어케할까. 프로덕트-프라이스를 기준으로 재정렬할거임.
+        products.sort(function(a, b){
+        return a.price - b.price
+        });
+
+        // console.log(products);
+        
+        // 숫자 정렬하는법: 역순으로도 해봄.
+        var 어레이 = [7,3,5,2,40];
+        어레이.sort(function(a, b){
+        return b - a
+        });
+        // console.log(어레이);
+
+        // 텍스트 사전정렬: 시도해봤는데 잘 안됨
+        var 어레이2 = ['가', '다', '나'];
+        어레이2.sort(function(a, b){
+        return a - b
+        });
+        // console.log(어레이2);
+
+    </script>
+</body>
+</html>

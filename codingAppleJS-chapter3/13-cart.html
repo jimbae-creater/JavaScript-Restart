@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="row">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // season 1
+        // var getItems = localStorage.getItem('saveItem');
+        // getItems = JSON.parse(getItems);
+        // console.log(getItems);
+
+        // var pants = [28, 30, 32];
+        // pants.forEach(function(a, i){
+        // console.log(a)
+        // });
+
+        // getItems.forEach(function(a, i){
+        //     var listItem = `<p class="nice">${a}</p>`
+        //     $('.row').append(listItem);
+        // });
+
+        // season 2
+        var getItems = localStorage.getItem('saveItem');
+        getItems = JSON.parse(getItems);
+        console.log(getItems);
+
+        getItems.forEach(function(a, i){
+            var listItem = `
+                <span class="nice">${a[i].title}</spanp>
+                <span class="nice">- - -</spanp>
+                <span class="nice">${a[i].num}</spanp>
+            `
+            $('.row').append(listItem);
+        });
+
+
+    </script>
+</body>
+</html>
