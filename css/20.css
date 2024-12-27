@@ -1,0 +1,84 @@
+.main-contents{
+    height: calc(100vh - 56px) ;
+    position: relative;
+}
+
+.main-layout {
+    margin: 0px auto;
+}
+
+.search-bar {
+    padding: 8px 8px;
+    width: 100%;
+}
+
+.search-bar input{
+    max-width: 160px;
+}
+
+main {
+    padding: 0px 2px 4px 2px;
+}
+
+
+.max-wid {
+    width: 560px;
+}
+
+/* 제품 카드 컴포넌트 정보 */
+
+.product {
+    background-color: #ffffff;
+    padding-bottom: 12px;
+    border-radius: 4px;
+    border: 1px solid #eee ;
+    overflow: hidden;
+}
+
+    .product img {
+        width: 100%;
+    }
+
+    .product-info{
+        width: 100%;
+        padding: 8px 12px;
+    }
+
+    /* 브랜드명 */
+    .product-info h6{
+        font-size: 12px;
+        margin-bottom: 4px;
+        color: #00000099;
+        font-weight: 500;
+    }
+
+    /* 제품명 */
+    .product-info h5{
+        font-size: 14px;
+        margin: 0px;
+    }
+
+    /* 가격 */
+    .product-info p{
+        margin-top: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #cd2211;
+    }
+/* basket 컴포넌트 정보 */
+
+.basket {
+    background-color: #fff;
+    height: 70vh;
+    width: 240px;
+    padding: 8px;
+
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform:translatey(-50%);
+}
+
+aside {
+    width: 100%;
+}

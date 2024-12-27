@@ -21,7 +21,7 @@ var dragStart = 0;
             $('.slide-container').css('transform', `translateX( 0vw )`)
         }
     });
-
+    
     $('.slide-box').eq(1).on('mousedown', function(e){
       dragStart = e.clientX;
       clickChecker = true;
