@@ -1,0 +1,54 @@
+
+.black-bg {
+width : 100%;
+height : 100%;
+position : fixed;
+background : rgba(0,0,0,0.2);
+z-index : 5;
+padding: 30px;
+visibility: hidden;
+opacity: 0;
+transition: all 0.4s;
+}
+.show-modal{
+visibility: visible;
+opacity: 1;
+}
+.list-group{
+    height: 400px;
+    overflow: hidden;
+    transition: all 2s;
+}
+.list-group-folde{
+    height: 0px;
+}
+.white-bg {
+    background: white;
+    border-radius: 8px;
+    padding: 32px;
+} 
+.slide-container {
+    width: 300vw;
+    transition: all 0.2s;
+}
+.slide-box {
+    width: 100vw;
+    float: left;
+}
+.slide-box img {
+    width: 100%;
+}
+
+.spacer{
+    width: 100%;
+}
+
+.crs_group{
+    display: flex;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.30);
+    backdrop-filter: blur(4px);
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
