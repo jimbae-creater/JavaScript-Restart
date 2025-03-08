@@ -1,42 +1,53 @@
+
+
 // 필수기능) 제이슨 파일 추출하여 아이템 리스트 생성하는기능
     // console.log('asdasds') //js 파일 작동 확인
-    let productData = null;
+    let productData = null; // 데이터를 저장할 변수 선언
+
+    
     // 제이슨 파일을 불러옴
     fetch("store.json")
     // 데이터에서 카드의 이미지, 브랜드명, 제품명, 가격을 가져옴
     .then(res => res.json())
-    .then(function(data){
-        // console.log(data) //성공시 데이터 가져와봄
-        console.log('성공')
-        renderCards(data.products); // 카드 렌더링 함수 호출
-        productData = data;
-    })
+    .then(
+        function(data){
+            // console.log(data) //성공시 데이터 가져와봄
+            console.log('성공')
+            renderCards(data.products); // 카드 렌더링 함수 호출
+            productData = data.products; // 데이터를 변수에 저장
+        }
+    )
     // 실패 메시지
     .catch(function(error){
         console.log('실패함')
     });
 
-    console.log(productData)
+    // console.log(productData) //비동기라서 불러올 수 없음
 
     // 가져온 데이터를 카드 html에 적절히 배치하여 카드를 하나 생성함
     function renderCards(products){
         // 이를 아이디만큼 반복하여 가져옴
-        products.forEach(product => {
+        products.forEach(i => {
             var card = `
-            <div class="col-4">
-                <div class="product">
-                    <img src="../codingAppleJS-chapter3/img/${product.photo}" alt="${product.title}">
-                    <div class="product-info">
-                        <h6>${product.brand}</h6>
-                        <h5>${product.title}</h5>
-                        <p class="price">₩${product.price}</p>
-                        <a href="#" class="btn btn-primary">
-                            <i class="bi bi-cart-plus"></i>
-                        </a>
+                <div class="col-4">
+                    <div class="product">
+                        <img src="../codingAppleJS-chapter3/img/${i.photo}" alt="${i.title}">
+                        <div class="product-info">
+                            <h6>${i.brand}</h6>
+                            <h5 class="item">${i.title}</h5>
+                            <p class="price">₩${i.price}</p>
+                            <a href="#" data-bs-toggle="tooltip" data-bs-title="장바구니에 담기" class="btn btn-primary">
+                                <i class="bi bi-cart-plus"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>`
+            `
             $('#main').append(card);
+
+            // **툴팁을 다시 초기화**
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
         });
     }
 
@@ -47,20 +58,74 @@
 
 
 // 필수기능) 검색 기능
-    // 1. 이미 있는 상품목록을 숨기는 식으로 코드짜는 것 보다는
-    // list.html 필터기능 만들었던 것 처럼 카드 전부 지웠다가 원하는 카드만 재생성하는게 가장 편리합니다.
-    // 검색폼에 체인지가 일어나는 순간 제품 목록을 지워버림
+    // 검색된 제품 변수 생성, 최초 빈값 어레이 데이터.
+    var searchedProduct = [];
 
-    // 2. 문자안에 특정 문자가 들어있는지 검사하고 싶으면 .includes() 아니면 .indexOf() 쓰면 될듯요
+    // 검색폼에 체인지가 일어나면 발동 
+    $('.form-control').change(function(){
+        // 검색된 제품 변수 초기화
+        searchedProduct = [];
+
+        // 순간 제품 목록을 지워버림
+        $('#main').html('');
+
+        //폼에서 검색어 가져오기
+        var searchWord = $('.form-control').val().toLowerCase(); // 대소문자 구분 없이 검색
+        // console.log(searchWord); //폼에서 검색어 잘 가져오는지 체크
+
+        // 2. 문자안에 특정 문자가 들어있는지 검사하고 싶으면 .includes() 아니면 .indexOf() 쓰면 될듯요
+        function searching(){
+            productData.forEach(item => {
+                if (item.title.includes(searchWord) == true){
+                    searchedProduct.push(item);
+                }
+            });
+        }
+        
+        searching();
+        
+        // console.log(searchedProduct); 
+        
+        // 검색 결과를 렌더링
+        if (searchedProduct.length > 0) {
+            renderCards(searchedProduct);
+        } else {$('#main').addClass('h-100').html(emptyState);}
+
+        searchAndHighlight(searchWord)
+    });
     // 검색폼
 
-    // 3. HTML중간중간 원하는 글자에 노란색 배경입히는건 html과 css 잘하면 됩니다.
+    var emptyState = `
+        <div class="empty-state h-100">
+            <i class="bi bi-cart-x"></i>
+            <p>검색된 제품이 없습니다</p>
+        </div>
+    `
+
+    // 3. 검색어에 하이라이트
+
+    // HTML중간중간 원하는 글자에 노란색 배경입히는건 html과 css 잘하면 됩니다.
     // **<p>안녕하세요</p>** 를
     // **<p><span style="background : yellow">안</span>녕하세요</p>**
     // 이렇게 바꾸면 원하는 곳만 노랗게 바꿀 수 있을듯요
+    
+    function searchAndHighlight(searchWord) {
+        const searchLower = searchWord.toLowerCase();
+        const items = document.querySelectorAll('.item');
 
-    // 선택) 검색어에 해당하는 상품이 없는 경우 대응
+        items.forEach(item => {
+            const itemText = item.textContent;
 
+            if (itemText.toLowerCase().includes(searchLower)) {
+                // 검색어만 강조 표시
+                const regex = new RegExp(`(${searchWord})`, 'gi');
+                item.innerHTML = itemText.replace(regex, '<span style="background-color: yellow;">$1</span>');
+            } else {
+                // 검색어가 없으면 원래 텍스트 복원
+                item.innerHTML = itemText;
+            }
+        });
+    }
 
 // 필수기능) 장바구니에 제품 넣기
     // 기능 1) 담기 버튼으로 제품 추가

@@ -20,6 +20,7 @@ main {
     padding: 0px 2px 4px 2px;
     min-height: calc(100% - 54px) ;
     border-radius: 4px 4px;
+    height: 100%;
 }
 
 
@@ -125,6 +126,7 @@ aside {
     height: 100%;
     border: dashed 2px #00000018;
     border-radius: 4px;
+    /* margin: 0px 0px; */
 
     display: flex;
     align-items: center;
