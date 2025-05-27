@@ -14,25 +14,25 @@
 <body class="bg-body-secondary overflow-hidden">
     <!-- 헤더 -->
     <nav class="navbar bg-body border-bottom border-2 border-primary-subtle">
-        <div class="container-fluid max-wid">
+        <div class="container-fluid max-wid d-flex  align-items-center justify-content-between flex-nowrap container">
           <a class="navbar-brand" href="#">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house text-primary me-1" viewBox="0 0 16 16">
                 <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
               </svg>
             집꾸미던지
           </a>
+          <!-- 검색 -->
+          <div class="search-bar d-flex align-items-center justify-content-end p-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search me-2" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+              <input class="form-control" type="search" placeholder="상품명으로 검색" aria-label=".form-control-lg example">
+          </div>
         </div>
       </nav>
     <div class="main-contents overflow-y-scroll d-flex justify-content-center">
         <aside></aside>
-        <div>
-            <!-- 검색 -->
-            <div class="max-wid search-bar main-layout d-flex align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search me-2" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-                <input class="form-control" type="search" placeholder="상품명" aria-label=".form-control-lg example">
-            </div>
+        <div class="py-2 h-auto d-inline-block">
     
             <!-- 본문 / justify-content-start  -->
             <main class="bg-body-tertiary max-wid main-layout ">
@@ -65,18 +65,18 @@
                     </svg>
                     <span class="flex-fill">장바구니</span>
                 </h4>
-                <div class="cart-container flex-fill overflow-y-auto">
-                    <div class="empty-state">
+                <div class="cart-container flex-fill overflow-y-auto position-relative">
+                    <!-- 엠티 스테이트. -->
+                    <div class="empty-state d-none">
                         <i class="bi bi-cart-plus-fill"></i>
                         <p>돈을 쓰고 <br> 당신의 통장을 불태우세요</p>
                     </div>
                     <!-- 장바구니 아이템 예시 -->
                     <div class="product-2 row justify-content-evenly
-                        d-none
+                        
                     ">
                         <img src="img/pr1.JPG" alt="..." class="col-5">
                         <div class="product-info d-flex flex-column col-7">
-                            <h6>브랜드명</h6>
                             <h5>제품의 제목</h5>
                             <p class="text-end">₩30,000</p>
                         </div>

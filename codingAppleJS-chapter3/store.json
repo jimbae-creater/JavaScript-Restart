@@ -55,6 +55,30 @@
       "photo": "pr4.jpg",
       "price": 40000, 
       "carted": false
+    },
+    {
+      "id": 6,
+      "title": "제품명8",
+      "brand": "제품명-브랜드7",
+      "photo": "pr4.jpg",
+      "price": 40000, 
+      "carted": false
+    },
+    {
+      "id": 6,
+      "title": "제품명9",
+      "brand": "제품명-브랜드7",
+      "photo": "pr4.jpg",
+      "price": 40000, 
+      "carted": false
+    },
+    {
+      "id": 6,
+      "title": "제품명10",
+      "brand": "제품명-브랜드7",
+      "photo": "pr4.jpg",
+      "price": 40000, 
+      "carted": false
     }
   ]
 }
