@@ -36,19 +36,23 @@
                             <h6>${i.brand}</h6>
                             <h5 class="item">${i.title}</h5>
                             <p class="price">₩${i.price}</p>
-                            <a href="#" data-bs-toggle="tooltip" data-bs-title="장바구니에 담기" class="btn btn-primary">
-                                <i class="bi bi-cart-plus"></i>
+                            <a href="#" 
+                                data-id="${i.id}"
+                                data-bs-toggle="tooltip" 
+                                data-bs-title="장바구니에 담기" 
+                                class="btn btn-primary"
+                            >
+                                    <i class="bi bi-cart-plus"></i>
                             </a>
                         </div>
                     </div>
                 </div>
             `
             $('#main').append(card);
-
-            // **툴팁을 다시 초기화**
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-            tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
         });
+        // **툴팁을 다시 초기화**
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
     }
 
     // 선택)json 데이터를 가져와야하는데 데이터가 없는 경우
@@ -128,8 +132,44 @@
     }
 
 // 필수기능) 장바구니에 제품 넣기
+    // 카트 기본 세팅
+    var cartItems = []; //응애 카트
+    // const stringifyCart = JSON.stringify(cartItems); // 카트에 넣기 위한 스트링파이
+    cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    // 페이지 로드 시
+    // const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    // cartData = savedCart;
+
     // 기능 1) 담기 버튼으로 제품 추가
-        // 기능 1.1: 담기버튼 호버시 등장하도록 수정
+    $('#main').on('click', 'a[data-id]', function(e) {
+        e.preventDefault();              // <a> 기본 동작 막기
+        const id = $(this).data('id');   // data-id 값 꺼내오기
+        // console.log(id); // 아이디 잘 가져오는지 체크
+
+        const pickProduct = productData.find(p => p.id === id); //꺼내온 아이디로 프로덕 데이터의 아이디 동일한 요소 가져와 변수화함.
+        
+        if (cartItems.find(p => p.id === id)) { //방금 수집한 아이디랑 카트 내부에 있는 오브젝트의 아이디값과 비교
+            // console.log('트루!');
+            pickProduct.quantity += 1; // 똑같은 아이디 있으면 퀀티티만 1개 플러스
+        } else {
+            cartItems.push(pickProduct) // 똑같은게 없으면 아이템 정보 복사 및 퀀티티 1개 누적
+            pickProduct.quantity = 1;
+            // console.log('뽤쓰');
+        }
+        console.log(cartItems);
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    });
+
+
+        // 형제 요소의 (이미지, 아이템, 프라이스)를 가져와 카트 데이터에 저장해라.
+        // 카트 데터에 저장된 아이템들은 장바구니에 계속 보여진다.
+        // 클로즈 버튼을 사용하여 저장된 아이템을 카트 데이터와 카트 UI에서 제거할 수 있다.
+        // 상품의 개수를 설정할 수 있다. 
+        // 개수를 0개로 만드는 경우 얼럿창이 등장하며 해당 제품을 장바구니에서 제외할것인지 묻는다.
+        
+        // 프라이스는 전부 합해서 '상품가'에 보여진다.
+        // 배송비는 기본적으로 4,500₩이다. 단, 구매 금액이 5만원이 이상이면 0원이다.
+        // 결제 예정금액은 위의 상품가와 배송비를 합한 금액이다.
     // 기능 2) 제품을 드래그&드롭으로 장바구니에 추가
 
 

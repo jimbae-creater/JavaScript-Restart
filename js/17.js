@@ -143,7 +143,7 @@ var dragStart = 0;
     // 지난 코드
     $('.navbar-toggler').on('click', function(){
       $('.list-group').toggleClass('list-group-folde');
-        console.log(zz);
+        // console.log(zz);
     });
 
     $('#login').on('click', function(){
