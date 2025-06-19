@@ -6,7 +6,7 @@
 
 .main-layout {
     /* margin: 8px auto; */
-    height: auto;
+    /* height: auto; */
 }
 
 .search-bar {
@@ -44,7 +44,7 @@ ol {
     background-color: #ffffff;
     padding-bottom: 4px;
     border-radius: 4px;
-    border: 1px solid #eee ;
+    border: 1px solid #00000025 ;
     overflow: hidden;
     position: relative; /* stacking context 생성 */
     z-index: 1;
@@ -135,7 +135,7 @@ aside {
     width: 100%;
     height: 100%;
     position: relative;
-    padding: 12px 4px;
+    padding: 4px;
 }
 
 .empty-state{
@@ -208,11 +208,6 @@ aside {
         }
 
 /* 장바구니 */
-.cart-calc {
-    padding: 16px;
-    border-top: solid 1px #0000001f;
-    padding-top: 8px;
-}
 .cart-calc p {
     font-size: 13px;
     font-weight: 600;
@@ -233,4 +228,20 @@ aside {
     color: #cd2211;
     font-size: 20px;
     font-weight: 500;
+}
+
+.cart-calc {
+    height: 0;
+    padding: 0 16px;           /* collapsed 땐 좌우만, 상하 패딩 0 */
+    border-top: none;          /* collapsed 땐 보더 숨김 */
+    overflow: hidden;
+    transition: 
+      height 0.3s ease,
+      padding 0.3s ease,
+      border-top 0.3s ease;
+  }
+  .cart-calc.expanded {
+    height: 198px;
+    padding: 16px;             /* expanded 모드에만 상하 패딩 추가 */
+    border-top: 1px solid #0000001f;
 }

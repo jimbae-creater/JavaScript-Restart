@@ -28,8 +28,7 @@
                  기능 목록
                  <ol>
                   <li>제목으로 검색</li>
-                  <li>장바구니에 물건 넣고 빼기</li>
-                  <li>장바구니에서 수량 조절 및 결제금액 출력</li>
+                  <li>장바구니에 물건 넣고 빼기, 수량 조절 및 결제금액 출력</li>
                   <li>드래그&드롭으로 장바구니에 물건 추가</li>
                  </ol>
                  ">
@@ -51,7 +50,7 @@
     
             <!-- 본문 / justify-content-start  -->
 
-            <main class="bg-body-tertiary max-wid main-layout ">
+            <main class="max-wid main-layout ">
                 <div id="main" class="row g-1 align-items-start flex-wrap m-0">
 
                     <!-- 카드아이템 -->
@@ -81,41 +80,45 @@
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                     </svg>
                     <span class="flex-fill">장바구니</span>
+                    <button type="button" class="btn-sm me-1 btn btn-outline-primary empty">비우기</button>
                 </h4>
                 <div class="cart-container flex-fill overflow-y-auto position-relative">
                     <!-- 엠티 스테이트. -->
-                    <div class="empty-state d-none">
+                    <div class="empty-state">
                         <i class="bi bi-cart-plus-fill"></i>
                         <p>돈을 쓰고 <br> 당신의 통장을 불태우세요</p>
                     </div>
-                    <!-- 장바구니 아이템 예시 -->
-                    <div class="product-2">
-                        <img src="img/pr1.JPG" alt="..." class="">
-                        <div class="product-info d-flex flex-column w-100">
-                            <h5>제품의 제목</h5>
-                            <p class="">₩30,000</p>
-                            <div class="amount-calc ">
-                                <button type="button" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                                    </svg>
-                                </button>
-                                <span class="amout-now">1</span>
-                                <button type="button" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
-                                    </svg>
-                                </button>
+                    <div class="cart-items">
+                        <!-- 장바구니 아이템 예시 -->
+                        <!-- <div class="product-2">
+                            <img src="img/pr1.JPG" alt="..." class="">
+                            <div class="product-info d-flex flex-column w-100">
+                                <h5>제품의 제목</h5>
+                                <p class="">₩30,000</p>
+                                <div class="amount-calc ">
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                        </svg>
+                                    </button>
+                                    <span class="amout-now">1</span>
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <!-- 장바구니 아이템 예시 -->
+
                     </div>
-                    <!-- 장바구니 아이템 예시 -->
                 </div>
                 <div class="cart-calc">
                     <p>상품가 <span class="pay-product">₩60,000</span></p>
                     <p>배송비 <span class="pay-ship">₩60,000</span></p>
                     <p>결재 예정 금액 <span class="pay-total">₩60,000</span></p>
-                    <button class="btn btn-primary w-100 mt-2 disabled">결제하기</button>
+                    <button class="btn btn-primary w-100 mt-2">결제하기</button>
                 </div>
             </div>
         </aside>
