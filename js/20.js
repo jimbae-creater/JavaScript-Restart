@@ -148,7 +148,8 @@
     // cartData = savedCart;
 
     // 기능 1) 담기 버튼으로 제품 추가
-    $('#main').on('click', 'a[data-id]', function(e) {
+    $('#main')
+        .on('click', 'a[data-id]', function(e) {
         e.preventDefault();              // <a> 기본 동작 막기
         const id = $(this).data('id');   // data-id 값 꺼내오기
         // console.log(id); // 아이디 잘 가져오는지 체크
@@ -224,7 +225,7 @@
       function updateCartSummary(cartItems) {
         // 계산 전용
         const productTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        const shippingFee = productTotal > 50000 ? 0 : 4000;
+        const shippingFee = productTotal >= 50000 ? 0 : 4000;
         const grandTotal  = productTotal + shippingFee;
       
         // 화면 반영
@@ -233,12 +234,46 @@
         $('.pay-total').text(`₩${grandTotal.toLocaleString()}`);
       }
 
-    $('.cart-container').on('click', 'button[data-action]', function(e){
+    $('.cart-container')
+        .on('click', 'button[data-action]', function(e){
+            e.preventDefault();
+            const id     = $(this).data('id');
+            const action = $(this).data('action'); // 'increment' or 'decrement'
+            updateQuantity(id, action);
+        })
+        // 드롭 허용
+        .on('dragover', function(e) {
         e.preventDefault();
-        const id     = $(this).data('id');
-        const action = $(this).data('action'); // 'increment' or 'decrement'
-        updateQuantity(id, action);
-    });
+        $(this).addClass('drag-over');  // 스타일링용 클래스
+        })
+        // 영역 밖으로 나가면 스타일 해제
+        .on('dragleave', function(e) {
+        e.preventDefault();
+        $(this).removeClass('drag-over');
+        })
+        // 실제 드롭 이벤트
+        .on('drop', function(e) {
+        e.preventDefault();
+        $(this).removeClass('drag-over');
+
+        // 2) dataTransfer에서 ID 꺼내기
+        const id = e.originalEvent.dataTransfer.getData('text/plain');
+
+        // 3) ID 기준으로 제품 찾아서 카트에 추가 (addToCart 재활용)
+        const prod = productData.find(p => p.id === +id);
+        if (prod) {
+            // 기존 로직 그대로
+            const exist = cartItems.find(c => c.id === prod.id);
+            if (exist) exist.quantity += 1;
+            else cartItems.push({ ...prod, quantity: 1 });
+
+            // 4) 저장 및 UI 갱신
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            renderCart(cartItems);
+            updateCartSummary(cartItems);
+        }
+        });
+
 
     function updateQuantity(itemId, action) {
         // 1) cartItems 배열에서 index 찾기
@@ -277,7 +312,37 @@
             })
             .on('dragend', '[draggable]', function() {
                 $(this).removeClass('dragging');
+            })
+        // 1) dragstart / dragend: 카드들 dim/undim
+            .on('dragstart', '[draggable]', function(e) {
+                // 나머지 카드 dim 처리
+                $('.product').addClass('dimmed');
+
+                // 내 카드만 살리기
+                $(this).find('.product').removeClass('dimmed').addClass('dragging');
+            
+                // (기존 dragstart 로직)
+                const dt = e.originalEvent.dataTransfer;
+                dt.setData('text/plain', $(this).data('id'));
+                dt.effectAllowed = 'move';
+            })
+            .on('dragend', '[draggable]', function(e) {
+                // 모두 원상복구
+                $('.product').removeClass('dimmed dragging');
             });
+
+            // 2) cart-container dragover / dragleave / drop: overlay 효과
+        $('.cart-container')
+            .on('dragover', function(e) {
+                e.preventDefault();
+                $(this).addClass('highlight-drop');
+            })
+            .on('dragleave drop', function(e) {
+                // drop과 leave 시 모두 overlay 해제
+                e.preventDefault();
+                $(this).removeClass('highlight-drop');
+            });
+
 
       
 

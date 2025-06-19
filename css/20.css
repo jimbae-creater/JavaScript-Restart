@@ -4,10 +4,11 @@
     position: relative;
 }
 
+/* 
 .main-layout {
-    /* margin: 8px auto; */
-    /* height: auto; */
-}
+    margin: 8px auto;
+    height: auto;
+} */
 
 .search-bar {
     padding: 8px 8px;
@@ -98,6 +99,19 @@ ol {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.32);
         z-index: 100;
       }
+
+    /* 드래그 중이지 않은 카드들 dim 처리 */
+    .product.dimmed {
+        opacity: 0.3;
+        pointer-events: none; /* 안 건드리도록 옵션 */
+        transition: opacity 0.2s ease;
+    }
+    
+    /* 드래그 중인 카드 강조 */
+    .product.dragging {
+        opacity: 1;
+        z-index: 1000;
+    }
 /* basket 컴포넌트 정보 */
 
 aside {
@@ -137,6 +151,31 @@ aside {
     position: relative;
     padding: 4px;
 }
+
+  /* 기본에선 숨겨놓고 */
+  .drop-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.8);
+    border: 2px dashed #007bff;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #007bff;
+    opacity: 0;
+    pointer-events: none;     /* 항상 none */
+    z-index: 10;              /* 자식 중 가장 위로 */
+    transition: opacity 0.2s ease;
+  }
+  
+  /* 드래그 오버 시 보이게 */
+  .cart-container.highlight-drop .drop-overlay {
+    opacity: 1;
+  }
+  
 
 .empty-state{
     background-color: #00000008;
