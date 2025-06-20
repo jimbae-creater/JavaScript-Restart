@@ -169,6 +169,7 @@ aside {
     pointer-events: none;     /* 항상 none */
     z-index: 10;              /* 자식 중 가장 위로 */
     transition: opacity 0.2s ease;
+    margin:  4px;
   }
   
   /* 드래그 오버 시 보이게 */

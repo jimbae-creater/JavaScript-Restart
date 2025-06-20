@@ -243,37 +243,44 @@
         })
         // 드롭 허용
         .on('dragover', function(e) {
-        e.preventDefault();
-        $(this).addClass('drag-over');  // 스타일링용 클래스
+            e.preventDefault();
+            $(this).addClass('drag-over');  // 스타일링용 클래스
+
+            $(this).addClass('highlight-drop');
         })
         // 영역 밖으로 나가면 스타일 해제
         .on('dragleave', function(e) {
-        e.preventDefault();
-        $(this).removeClass('drag-over');
+            e.preventDefault();
+            $(this).removeClass('drag-over');
         })
         // 실제 드롭 이벤트
         .on('drop', function(e) {
-        e.preventDefault();
-        $(this).removeClass('drag-over');
+            e.preventDefault();
+            $(this).removeClass('drag-over');
 
-        // 2) dataTransfer에서 ID 꺼내기
-        const id = e.originalEvent.dataTransfer.getData('text/plain');
+            // 2) dataTransfer에서 ID 꺼내기
+            const id = e.originalEvent.dataTransfer.getData('text/plain');
 
-        // 3) ID 기준으로 제품 찾아서 카트에 추가 (addToCart 재활용)
-        const prod = productData.find(p => p.id === +id);
-        if (prod) {
-            // 기존 로직 그대로
-            const exist = cartItems.find(c => c.id === prod.id);
-            if (exist) exist.quantity += 1;
-            else cartItems.push({ ...prod, quantity: 1 });
+            // 3) ID 기준으로 제품 찾아서 카트에 추가 (addToCart 재활용)
+            const prod = productData.find(p => p.id === +id);
 
-            // 4) 저장 및 UI 갱신
-            localStorage.setItem('cart', JSON.stringify(cartItems));
-            renderCart(cartItems);
-            updateCartSummary(cartItems);
-        }
+            if (prod) {
+                // 기존 로직 그대로
+                const exist = cartItems.find(c => c.id === prod.id);
+                if (exist) exist.quantity += 1;
+                else cartItems.push({ ...prod, quantity: 1 });
+
+                // 4) 저장 및 UI 갱신
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+                renderCart(cartItems);
+                updateCartSummary(cartItems);
+            }
+        })
+        .on('dragleave drop', function(e) {
+            // drop과 leave 시 모두 overlay 해제
+            e.preventDefault();
+            $(this).removeClass('highlight-drop');
         });
-
 
     function updateQuantity(itemId, action) {
         // 1) cartItems 배열에서 index 찾기
@@ -309,12 +316,7 @@
                 const id = $(this).data('id');
                 e.originalEvent.dataTransfer.setData('text/plain', id);
                 $(this).addClass('dragging');
-            })
-            .on('dragend', '[draggable]', function() {
-                $(this).removeClass('dragging');
-            })
-        // 1) dragstart / dragend: 카드들 dim/undim
-            .on('dragstart', '[draggable]', function(e) {
+
                 // 나머지 카드 dim 처리
                 $('.product').addClass('dimmed');
 
@@ -325,23 +327,14 @@
                 const dt = e.originalEvent.dataTransfer;
                 dt.setData('text/plain', $(this).data('id'));
                 dt.effectAllowed = 'move';
+
+                $('.cart-container').addClass('highlight-drop');
             })
-            .on('dragend', '[draggable]', function(e) {
+            .on('dragend', '[draggable]', function() {
+                $(this).removeClass('dragging');
                 // 모두 원상복구
                 $('.product').removeClass('dimmed dragging');
-            });
-
-            // 2) cart-container dragover / dragleave / drop: overlay 효과
-        $('.cart-container')
-            .on('dragover', function(e) {
-                e.preventDefault();
-                $(this).addClass('highlight-drop');
             })
-            .on('dragleave drop', function(e) {
-                // drop과 leave 시 모두 overlay 해제
-                e.preventDefault();
-                $(this).removeClass('highlight-drop');
-            });
 
 
       
