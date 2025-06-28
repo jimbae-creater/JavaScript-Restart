@@ -4,105 +4,105 @@
       "id": 0,
       "title": "식기세척기",
       "brand": "세척나라",
-      "photo": "pr1.jpg",
+      "photo": "1.jpg",
       "price": 10000
     },
     {
       "id": 1,
       "title": "원목 침대 프레임",
       "brand": "침대나라",
-      "photo": "pr2.jpg",
+      "photo": "2.jpg",
       "price": 20000
     },
     {
       "id": 2,
       "title": "천연 디퓨저 세트",
       "brand": "향기나라",
-      "photo": "pr3.jpg",
+      "photo": "3.jpg",
       "price": 30000
     },
     {
       "id": 3,
       "title": "시원한 서큘레이터",
       "brand": "바람나라",
-      "photo": "pr4.jpg",
+      "photo": "4.jpg",
       "price": 40000
     },
     {
       "id": 4,
       "title": "모던 소파 체어",
       "brand": "소파풀",
-      "photo": "pr1.jpg",
+      "photo": "5.jpg",
       "price": 150000
     },
     {
       "id": 5,
       "title": "LED 스탠드 조명",
       "brand": "라이트앤모어",
-      "photo": "pr2.jpg",
+      "photo": "6.jpg",
       "price": 45000
     },
     {
       "id": 6,
       "title": "알루미늄 접이식 테이블",
       "brand": "테이블코리아",
-      "photo": "pr3.jpg",
+      "photo": "7.jpg",
       "price": 80000
     },
     {
       "id": 7,
       "title": "스마트 블루투스 스피커",
       "brand": "사운드웨이브",
-      "photo": "pr4.jpg",
+      "photo": "8.jpg",
       "price": 60000
     },
     {
       "id": 8,
       "title": "천연 라탄 책장",
       "brand": "우든스토리",
-      "photo": "pr1.jpg",
+      "photo": "9.jpg",
       "price": 120000
     },
     {
       "id": 9,
       "title": "실내용 공기순환 선풍기",
       "brand": "쿨브리즈",
-      "photo": "pr2.jpg",
+      "photo": "10.jpg",
       "price": 50000
     },
     {
       "id": 10,
       "title": "포근한 극세사 러그",
       "brand": "홈앤홈",
-      "photo": "pr3.jpg",
+      "photo": "11.jpg",
       "price": 70000
     },
     {
       "id": 11,
       "title": "프리미엄 목재 옷장",
       "brand": "옷장이좋아",
-      "photo": "pr4.jpg",
+      "photo": "12.jpg",
       "price": 200000
     },
     {
       "id": 12,
       "title": "모듈형 수납장",
       "brand": "수납플러스",
-      "photo": "pr1.jpg",
+      "photo": "13.jpg",
       "price": 90000
     },
     {
       "id": 13,
       "title": "킹사이즈 매트리스",
       "brand": "슬립웨어",
-      "photo": "pr2.jpg",
+      "photo": "14.jpg",
       "price": 180000
     },
     {
       "id": 14,
       "title": "접이식 자전거 거치대",
       "brand": "바이크매니아",
-      "photo": "pr3.jpg",
+      "photo": "15.jpg",
       "price": 30000
     }
   ]

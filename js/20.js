@@ -31,7 +31,7 @@
             var card = `
                 <div class="col-4" draggable="true" data-id="${i.id}">
                     <div class="product">
-                        <img src="../codingAppleJS-chapter3/img/${i.photo}" alt="${i.title}" draggable="false">
+                        <img src="./img/${i.photo}" alt="${i.title}" draggable="false">
                         <div class="product-info">
                             <h6>${i.brand}</h6>
                             <h5 class="item">${i.title}</h5>
@@ -148,8 +148,7 @@
     // cartData = savedCart;
 
     // 기능 1) 담기 버튼으로 제품 추가
-    $('#main')
-        .on('click', 'a[data-id]', function(e) {
+    $('#main').on('click', 'a[data-id]', function(e) {
         e.preventDefault();              // <a> 기본 동작 막기
         const id = $(this).data('id');   // data-id 값 꺼내오기
         // console.log(id); // 아이디 잘 가져오는지 체크
@@ -197,7 +196,7 @@
                 // 카드 아이템 정의
                 const cartItemHtml = `
                     <div class="product-2">
-                        <img src="img/${cartItems[i].photo}"  alt="${item.title}" class="">
+                        <img src="./img/${cartItems[i].photo}" alt="${item.title}" class="">
                         <div class="product-info d-flex flex-column w-100">
                             <h5>${cartItems[i].title}</h5>
                             <p class="">₩${cartItems[i].price.toLocaleString()}</p>
@@ -221,7 +220,7 @@
         }
       }
       
-
+      // 장바구니 내부 가격 표시 |시작
       function updateCartSummary(cartItems) {
         // 계산 전용
         const productTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -233,6 +232,7 @@
         $('.pay-ship').text(`₩${shippingFee.toLocaleString()}`);
         $('.pay-total').text(`₩${grandTotal.toLocaleString()}`);
       }
+      // 장바구니 내부 가격 표시 |끝
 
     $('.cart-container')
         .on('click', 'button[data-action]', function(e){
@@ -241,47 +241,60 @@
             const action = $(this).data('action'); // 'increment' or 'decrement'
             updateQuantity(id, action);
         })
-        // 드롭 허용
-        .on('dragover', function(e) {
-            e.preventDefault();
-            $(this).addClass('drag-over');  // 스타일링용 클래스
 
-            $(this).addClass('highlight-drop');
-        })
-        // 영역 밖으로 나가면 스타일 해제
-        .on('dragleave', function(e) {
-            e.preventDefault();
-            $(this).removeClass('drag-over');
-        })
-        // 실제 드롭 이벤트
-        .on('drop', function(e) {
-            e.preventDefault();
-            $(this).removeClass('drag-over');
+    // 1) 공통 핸들러 함수 정의
+    function onCardDragStart(e) {
+        const id = $(this).data('id');
+        e.originalEvent.dataTransfer.setData('text/plain', id);
+        $('.product').addClass('dimmed');
+        $(this).find('.product').removeClass('dimmed').addClass('dragging');
+        $('.cart-container').addClass('highlight-drop');
+    }
+    function onCardDragEnd(e) {
+        $('.product').removeClass('dimmed dragging');
+        $('.cart-container').removeClass('highlight-drop');
+    }
+    
+    function onCartDragOver(e) {
+        e.preventDefault();
+        $(this).addClass('highlight-drop');
+    }
+    function onCartDragLeave(e) {
+        e.preventDefault();
+        $(this).removeClass('highlight-drop');
+    }
+    function onCartDrop(e) {
+        e.preventDefault();
+        $(this).removeClass('highlight-drop');
+        // 2) dataTransfer에서 ID 꺼내기
+        const id = e.originalEvent.dataTransfer.getData('text/plain');
 
-            // 2) dataTransfer에서 ID 꺼내기
-            const id = e.originalEvent.dataTransfer.getData('text/plain');
+        // 3) ID 기준으로 제품 찾아서 카트에 추가 (addToCart 재활용)
+        const prod = productData.find(p => p.id === +id);
 
-            // 3) ID 기준으로 제품 찾아서 카트에 추가 (addToCart 재활용)
-            const prod = productData.find(p => p.id === +id);
+        if (prod) {
+            // 기존 로직 그대로
+            const exist = cartItems.find(c => c.id === prod.id);
+            if (exist) exist.quantity += 1;
+            else cartItems.push({ ...prod, quantity: 1 });
 
-            if (prod) {
-                // 기존 로직 그대로
-                const exist = cartItems.find(c => c.id === prod.id);
-                if (exist) exist.quantity += 1;
-                else cartItems.push({ ...prod, quantity: 1 });
-
-                // 4) 저장 및 UI 갱신
-                localStorage.setItem('cart', JSON.stringify(cartItems));
-                renderCart(cartItems);
-                updateCartSummary(cartItems);
-            }
-        })
-        .on('dragleave drop', function(e) {
-            // drop과 leave 시 모두 overlay 해제
-            e.preventDefault();
-            $(this).removeClass('highlight-drop');
-        });
-
+            // 4) 저장 및 UI 갱신
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            renderCart(cartItems);
+            updateCartSummary(cartItems);
+        }
+    }
+    
+    // 2) document 하나에 위임
+    $(document)
+        // 카드 드래그 시작/끝
+        .on('dragstart',   '#main [draggable]', onCardDragStart)
+        .on('dragend',     '#main [draggable]', onCardDragEnd)
+        // 카트 영역 드래그 오버/리브/드롭
+        .on('dragover',    '.cart-container',     onCartDragOver)
+        .on('dragleave',   '.cart-container',     onCartDragLeave)
+        .on('drop',        '.cart-container',     onCartDrop);
+  
     function updateQuantity(itemId, action) {
         // 1) cartItems 배열에서 index 찾기
         const idx = cartItems.findIndex(c => c.id === itemId);
@@ -309,32 +322,6 @@
         renderCart(cartItems);
         updateCartSummary(cartItems)
       }
-      
-      // jQuery 이벤트 위임
-        $('#main')
-            .on('dragstart', '[draggable]', function(e) {
-                const id = $(this).data('id');
-                e.originalEvent.dataTransfer.setData('text/plain', id);
-                $(this).addClass('dragging');
-
-                // 나머지 카드 dim 처리
-                $('.product').addClass('dimmed');
-
-                // 내 카드만 살리기
-                $(this).find('.product').removeClass('dimmed').addClass('dragging');
-            
-                // (기존 dragstart 로직)
-                const dt = e.originalEvent.dataTransfer;
-                dt.setData('text/plain', $(this).data('id'));
-                dt.effectAllowed = 'move';
-
-                $('.cart-container').addClass('highlight-drop');
-            })
-            .on('dragend', '[draggable]', function() {
-                $(this).removeClass('dragging');
-                // 모두 원상복구
-                $('.product').removeClass('dimmed dragging');
-            })
 
 
       
